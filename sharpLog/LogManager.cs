@@ -23,7 +23,6 @@ namespace sharpLog
             this.archiveDate = new DateTime();
             this.fileName = fileName;
             this.fileManager = new FileManager(this.fileName);
-            Console.WriteLine("lol");
         }
 
         public LogManager(String fileName, DateTime archiveDate)
