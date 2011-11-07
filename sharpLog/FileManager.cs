@@ -5,8 +5,7 @@ using System.Text;
 
 namespace sharpLog
 {
-    public class Class1
+    class FileManager
     {
-        //TEST DE FOUUU
     }
 }
