@@ -41,12 +41,13 @@ namespace sharpLog
 
         public void logEvent(String id, String eventContent)
         {
-            
+            this.fileManager.writeInFile(id, eventContent);
         }
 
         public void logEvent(String id, String eventContent, String fileName)
         {
-
+            FileManager otherFile = new FileManager(fileName);
+            otherFile.writeInFile(id, eventContent);
         }
     }
 }

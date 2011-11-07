@@ -11,6 +11,9 @@ namespace application_test
         static void Main(string[] args)
         {
             LogManager lm = new LogManager("fu");
+            lm.logEvent("Programme principal", "Erreur 1553");
+            lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
+
 
         }
     }

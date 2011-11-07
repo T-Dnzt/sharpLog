@@ -1,0 +1,7 @@
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\bin\Debug\application_test.exe
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\bin\Debug\application_test.pdb
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\bin\Debug\sharpLog.dll
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\bin\Debug\sharpLog.pdb
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\application_test.exe
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\application_test.pdb

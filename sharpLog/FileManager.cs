@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace sharpLog
 {
@@ -11,17 +12,22 @@ namespace sharpLog
 
         public FileManager()
         {
-            this.fileName = "Default";
+            this.fileName = "Default.txt";
         }
 
         public FileManager(String fileName)
         {
-            this.fileName = fileName;
+            this.fileName = String.Format("{0}.txt", fileName);
         }
 
-        public void writeInFile(String content)
+        public void writeInFile(String id, String content)
         {
-           
+            using (StreamWriter w = File.AppendText(this.fileName))
+            {
+                w.WriteLine(String.Format("{0} - {1} : {2}", DateTime.Now, id, content));
+                w.Flush();
+                w.Close();
+            }
         }
 
     }
