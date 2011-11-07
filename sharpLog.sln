@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpLog", "sharpLog\sharpLog.csproj", "{34FD8B78-D131-441D-9D9D-22CA77B1E392}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "application_test", "application_test\application_test.csproj", "{05E15E01-E45D-4AF5-AB66-9AF65CFCE5BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34FD8B78-D131-441D-9D9D-22CA77B1E392} = {34FD8B78-D131-441D-9D9D-22CA77B1E392}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,5 +7,22 @@ namespace sharpLog
 {
     class FileManager
     {
+        private String fileName;
+
+        public FileManager()
+        {
+            this.fileName = "Default";
+        }
+
+        public FileManager(String fileName)
+        {
+            this.fileName = fileName;
+        }
+
+        public void writeInFile(String content)
+        {
+           
+        }
+
     }
 }
