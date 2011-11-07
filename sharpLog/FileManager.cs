@@ -34,5 +34,17 @@ namespace sharpLog
             mut.ReleaseMutex();
         }
 
+        public void writeInFile(String id, Exception ex)
+        {
+            mut.WaitOne();
+            using (StreamWriter w = File.AppendText(this.fileName))
+            {
+                w.WriteLine(String.Format("{0} - Exception in {1} : {2}", DateTime.Now, id, ex.ToString()));
+                w.Flush();
+                w.Close();
+            }
+            mut.ReleaseMutex();
+        }
+
     }
 }

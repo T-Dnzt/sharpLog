@@ -49,5 +49,10 @@ namespace sharpLog
             FileManager otherFile = new FileManager(fileName);
             otherFile.writeInFile(id, eventContent);
         }
+
+        public void logException(String id, Exception ex)
+        {
+            this.fileManager.writeInFile(id, ex);
+        }
     }
 }

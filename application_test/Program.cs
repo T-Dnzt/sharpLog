@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using sharpLog;
 using System.Threading;
+using System.IO;
 
 namespace application_test
 {
@@ -15,9 +16,16 @@ namespace application_test
             LogManager f = new LogManager("fu");
             lm.logEvent("Programme principal", "Erreur 1553");
            // lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
-            ThreadTest tt = new ThreadTest(lm);
-            ThreadTest dd = new ThreadTest(lm);
+          // ThreadTest tt = new ThreadTest(lm);
 
+            /*try
+            {
+                StreamReader sr = System.IO.File.OpenText("test");         
+            }
+            catch (Exception err)
+            {
+                lm.logException("Programme principal", err);
+            }*/
 
         }
 
