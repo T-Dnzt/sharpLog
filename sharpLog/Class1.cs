@@ -7,5 +7,6 @@ namespace sharpLog
 {
     public class Class1
     {
+        //TEST DE FOUUU
     }
 }
