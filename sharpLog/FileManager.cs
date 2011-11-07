@@ -10,7 +10,7 @@ namespace sharpLog
     class FileManager
     {
         private String fileName;
-        private Mutex mut = new Mutex();
+        static Mutex mut = new Mutex();
 
         public FileManager()
         {

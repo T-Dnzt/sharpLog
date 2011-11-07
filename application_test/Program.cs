@@ -12,10 +12,11 @@ namespace application_test
         static void Main(string[] args)
         {
             LogManager lm = new LogManager("fu");
+            LogManager f = new LogManager("fu");
             lm.logEvent("Programme principal", "Erreur 1553");
            // lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
             ThreadTest tt = new ThreadTest(lm);
-
+            ThreadTest dd = new ThreadTest(lm);
 
 
         }
