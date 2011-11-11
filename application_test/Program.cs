@@ -12,13 +12,23 @@ namespace application_test
     {
         static void Main(string[] args)
         {
-            LogManager lm = new LogManager("fu", DateTime.Now);
+            LogManager lm = new LogManager("fu");
             // LogManager f = new LogManager("fu");
-            lm.logEvent("Programme principal", "Erreur 1553");
-            
+            lm.logEvent("Programme principal", "Erreur 7");
+            lm.logEvent("Programme secondaire", "Erreur 0");
 
-           // lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
-          // ThreadTest tt = new ThreadTest(lm);
+
+            //Test de la recherche
+            /*
+            DateTime now = new DateTime(2011,11,11,16,51,5);
+            DateTime end = now.AddMinutes(3);
+            lm.getLogs(now, end);
+            Console.WriteLine();
+            lm.getLogs(now, end, "Programme secondaire");
+            */
+
+            // lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
+          //ThreadTest tt = new ThreadTest(lm);
 
             /*try
             {
