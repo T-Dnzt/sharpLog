@@ -136,14 +136,14 @@ namespace sharpLog
                             logList.Add(line);
                         else if (logDate > start && logDate < end && !id.Equals(null))
                         {
-                            if(regLine.IsMatch(line))
+                            if (regLine.IsMatch(line))
                                 logList.Add(line);
                         }
 
                         line = streamR.ReadLine();
                     }
                     streamR.Close();
-                
+                }
                 catch (Exception ex)
                 {
                     //A définir
