@@ -12,7 +12,8 @@ namespace application_test
     {
         static void Main(string[] args)
         {
-            LogManager lm = new LogManager("fu");
+            LogManager lm = new LogManager("lol", 3);
+            //LogManager lm2 = new LogManager("log");
             // LogManager f = new LogManager("fu");
             lm.logEvent("Programme principal", "Erreur 7");
             lm.logEvent("Programme secondaire", "Erreur 0");
