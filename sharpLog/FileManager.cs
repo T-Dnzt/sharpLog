@@ -12,7 +12,7 @@ namespace sharpLog
         private String fileName;
         private String path;
         static Mutex mut = new Mutex();
-
+       
         public FileManager()
         {
             this.fileName = "Default.txt";

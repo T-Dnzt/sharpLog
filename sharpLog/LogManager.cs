@@ -12,68 +12,52 @@ namespace sharpLog
     public class LogManager
     {
         private FileManager fileManager;
-        private Int32 dayInterval;
-        private DateTime archiveDate;
         private String fileName;
         private String path;
+        private ArchiveManager archiveManager;
 
 
         //CONSTRUCTEURS
-        public LogManager()
-        {           
-             this.archiveDate = new DateTime();
-             this.fileName = "Default";
-             this.fileManager = new FileManager(this.fileName);
-        }
-
         public LogManager(String fileName)
-        {
-            this.archiveDate = new DateTime();
-            this.dayInterval = 0;
+        {         
             this.fileName = fileName;
-            this.fileManager = new FileManager(this.fileName);
             this.path = null;
-          
+            this.fileManager = new FileManager(this.fileName);
+            this.archiveManager = null;
+            this.path = null;     
         }
 
         public LogManager(String fileName, Int32 dayInterval)
         {
-            this.dayInterval = dayInterval;
-            this.archiveDate = DateTime.Now.AddDays(dayInterval);
             this.fileName = fileName;
-            this.fileManager = new FileManager(this.fileName);
-            this.archiveFile();
             this.path = null;
-            this.setSettings();
+            this.fileManager = new FileManager(this.fileName);
+            this.archiveManager = new ArchiveManager(this.fileName, dayInterval);
+            
         }
 
         public LogManager(String fileName, String path)
         {
-            this.archiveDate = new DateTime();
-            this.dayInterval = 0;
             this.fileName = fileName;
             this.path = path;
             this.fileManager = new FileManager(this.fileName, this.path);
-            
+            this.archiveManager = null;
+         
         }
 
         public LogManager(String fileName, Int32 dayInterval, String path)
         {
-            this.dayInterval = dayInterval;
-            this.archiveDate = DateTime.Now.AddDays(dayInterval);
             this.fileName = fileName;
             this.path = path;
             this.fileManager = new FileManager(this.fileName, this.path);
-            this.setSettings();
+            this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
         }
 
 
 
-
-        //METHODES
+        //METHODES D ECRITURE
         public void logEvent(String id, String eventContent)
         {
-            this.archiveFile();
             this.fileManager.writeInFile(id, eventContent);
         }
 
@@ -85,7 +69,7 @@ namespace sharpLog
 
         public void logEvent(String id, String eventContent, String fileName, Boolean samePath)
         {
-            this.archiveFile();
+
             if (samePath)
             {
                 FileManager otherFile = new FileManager(fileName, this.path);
@@ -100,60 +84,11 @@ namespace sharpLog
 
         public void logException(String id, Exception ex)
         {
-            this.archiveFile();
             this.fileManager.writeInFile(id, ex);
         }
 
-        //A check...
-        public void setSettings()
-        {
-            if (log.Default.file.Equals(this.fileName))
-            {
-                this.archiveDate = log.Default.archiveDate;
-                this.path = log.Default.path;
-                this.dayInterval = log.Default.interval;
-            }
-            else
-            {
-                log.Default.file = this.fileName;
-                if (this.path != null)
-                    log.Default.path = this.path;
-                log.Default.interval = this.dayInterval;
-                log.Default.archiveDate = this.archiveDate;
-                log.Default.Save();
-            }
-        }
 
-
-        //ARCHIVAGE
-
-        //Sauvegarder la date d'archivage en dur
-        public void archiveFile()
-        {       
-            if (File.Exists(String.Format("{0}.txt", this.fileName)) && this.archiveDate <= DateTime.Now)
-            {
-                try
-                {
-                    if (this.path == null)
-                    {
-                        String archiveName = String.Format("{0}_archive_{1:yyyy_M_dd}.txt", this.fileName, DateTime.Now);
-                        File.Move(String.Format("{0}.txt", this.fileName), archiveName);
-                    }
-                    else
-                    {
-                        String archiveName = String.Format("{0}_archive_{1:yyyy_M_dd}.txt", this.fileName, DateTime.Now);
-                        File.Move(String.Format("{0}{1}.txt", this.path, this.fileName), String.Format("{0}{1}.txt", this.path, archiveName));
-                    }
-
-                    this.archiveDate = DateTime.Now.AddDays(this.dayInterval);
-                }
-                catch (Exception ex)
-                {
-                   //Faire quelque chose si le fichier d'archive existe déjà
-                }
-
-            }
-        }
+      
 
         //RECHERCHE DANS LES LOGS
         public List<String> getFilesAndArchives(String fileName)

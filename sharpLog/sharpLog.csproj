@@ -41,22 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArchiveConfig.cs" />
+    <Compile Include="ArchiveManager.cs" />
     <Compile Include="log.cs" />
-    <Compile Include="log.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>log.settings</DependentUpon>
-    </Compile>
     <Compile Include="LogManager.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="log.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>log.Designer.cs</LastGenOutput>
-    </None>
+    <Compile Include="Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

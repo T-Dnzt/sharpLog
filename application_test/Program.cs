@@ -12,7 +12,7 @@ namespace application_test
     {
         static void Main(string[] args)
         {
-            LogManager lm = new LogManager("lol", 3);
+            LogManager lm = new LogManager("Testdefifou", 3);
             //LogManager lm2 = new LogManager("log");
             // LogManager f = new LogManager("fu");
             lm.logEvent("Programme principal", "Erreur 7");
