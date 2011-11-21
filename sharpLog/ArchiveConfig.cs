@@ -49,7 +49,7 @@ namespace sharpLog
 
         public void updateNextArchiveDate()
         {
-            this.nArchiveDate.AddDays(this.dInterval);
+            this.nArchiveDate = this.nArchiveDate.AddDays(this.dInterval);
         }
 
         public Int32 dayInterval

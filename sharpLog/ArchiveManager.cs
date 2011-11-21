@@ -43,13 +43,17 @@ namespace sharpLog
             checkArchiveConfig(dayInterval);
             saveArchiveConfig();
         }
-       
+
+
 
         //Méthodes
         public void checkArchiveConfig()
         {
             if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+            {
                 this.archiveConfig = getArchiveConfig();
+                archiveFile();
+            }
             else
                 this.archiveConfig = new ArchiveConfig(this.fileName);
         }
@@ -57,10 +61,16 @@ namespace sharpLog
         public void checkArchiveConfig(Int32 dayInterval)
         {
             if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+            {
                 this.archiveConfig = getArchiveConfig();
+                archiveFile();
+            }
             else
             {
-                this.archiveConfig = new ArchiveConfig(this.fileName);
+                if (String.IsNullOrEmpty(this.path))
+                    this.archiveConfig = new ArchiveConfig(this.fileName);
+                else
+                    this.archiveConfig = new ArchiveConfig(this.fileName, this.path);
                 setArchivage(dayInterval);
             }
         }
@@ -81,29 +91,33 @@ namespace sharpLog
         private void saveArchiveConfig()
         {
             Serializer serializer = new Serializer();
-            serializer.SerializeArchiveConfig(this.fileName, this.archiveConfig);
+            serializer.SerializeArchiveConfig(String.Format("{0}{1}", this.path, this.fileName), this.archiveConfig);
         }
 
         private ArchiveConfig getArchiveConfig()
         {
             Serializer serializer = new Serializer();
-            return serializer.DeSerializeArchiveConfig(this.fileName);
+            return serializer.DeSerializeArchiveConfig(String.Format("{0}{1}", this.path, this.fileName));
         }
 
 
         public void archiveFile()
         {
-            if (File.Exists(String.Format("{0}{1}.txt", this.path, this.fileName)) && this.archiveConfig.nextArchiveDate >= DateTime.Now)
+            Console.WriteLine("Prochaine date : " + this.archiveConfig.nextArchiveDate);
+            Console.WriteLine("Date actuelle : " + DateTime.Now);
+            Console.WriteLine(this.archiveConfig.nextArchiveDate >= DateTime.Now);
+            if (File.Exists(String.Format("{0}{1}.txt", this.path, this.fileName)) && this.archiveConfig.nextArchiveDate <= DateTime.Now.AddDays(8))
             {
                 try
                 {
                     String archiveName = String.Format("{0}_archive_{1:yyyy_M_dd}.txt", this.fileName, DateTime.Now);
                     File.Move(String.Format("{0}{1}.txt", this.path, this.fileName), String.Format("{0}{1}.txt", this.path, archiveName));
                     this.archiveConfig.updateNextArchiveDate();
+                    Console.WriteLine("Apres archivage : " + this.archiveConfig.nextArchiveDate);
                 }
                 catch (Exception ex)
                 {
-                    //si le fichier d'archive existe déjà
+                    //Si l'archive existe déjà
                 }
 
             }

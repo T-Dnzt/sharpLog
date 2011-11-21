@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="ArchiveConfig.cs" />
     <Compile Include="ArchiveManager.cs" />
-    <Compile Include="log.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

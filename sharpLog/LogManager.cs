@@ -18,6 +18,7 @@ namespace sharpLog
 
 
         //CONSTRUCTEURS
+      
         public LogManager(String fileName)
         {         
             this.fileName = fileName;
@@ -35,29 +36,50 @@ namespace sharpLog
             this.archiveManager = new ArchiveManager(this.fileName, dayInterval);
             
         }
-
+        
         public LogManager(String fileName, String path)
         {
             this.fileName = fileName;
-            this.path = path;
+            checkPath(path);
             this.fileManager = new FileManager(this.fileName, this.path);
             this.archiveManager = null;
          
         }
 
-        public LogManager(String fileName, Int32 dayInterval, String path)
+        public LogManager(String fileName, String path, Int32 dayInterval)
         {
             this.fileName = fileName;
-            this.path = path;
+            checkPath(path);
             this.fileManager = new FileManager(this.fileName, this.path);
             this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
         }
 
+        private void checkPath(String path)
+        {
+            if (Directory.Exists(path))
+                this.path = path;
+            else
+                this.path = null;
+        }
+
+        public void setArchivage(Int32 dayInterval)
+        {
+            if(!this.archiveManager.Equals(null))
+                this.archiveManager.setArchivage(dayInterval);
+        }
+
+        public void changeDayInterval(Int32 dayInterval)
+        {
+            if (!this.archiveManager.Equals(null))
+                this.archiveManager.changeDayInterval(dayInterval);
+        }
 
 
         //METHODES D ECRITURE
         public void logEvent(String id, String eventContent)
         {
+            if (!this.archiveManager.Equals(null))
+                this.archiveManager.archiveFile();
             this.fileManager.writeInFile(id, eventContent);
         }
 
@@ -67,23 +89,11 @@ namespace sharpLog
             otherFile.writeInFile(id, eventContent);
         }
 
-        public void logEvent(String id, String eventContent, String fileName, Boolean samePath)
-        {
-
-            if (samePath)
-            {
-                FileManager otherFile = new FileManager(fileName, this.path);
-                otherFile.writeInFile(id, eventContent);
-            }
-            else
-            {
-                FileManager otherFile = new FileManager(fileName);
-                otherFile.writeInFile(id, eventContent);
-            }
-        }
 
         public void logException(String id, Exception ex)
         {
+            if (!this.archiveManager.Equals(null))
+                this.archiveManager.archiveFile();
             this.fileManager.writeInFile(id, ex);
         }
 
