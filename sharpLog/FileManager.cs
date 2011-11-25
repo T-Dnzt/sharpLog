@@ -12,17 +12,10 @@ namespace sharpLog
         private String fileName;
         private String path;
         static Mutex mut = new Mutex();
-       
-        public FileManager()
-        {
-            this.fileName = "Default.txt";
-        }
 
-        public FileManager(String fileName)
-        {
-            this.fileName = String.Format("{0}.txt", fileName);
-            this.path = null;
-        }
+        public FileManager() : this("Default", null){}
+
+        public FileManager(String fileName) : this(fileName, null){}
 
         public FileManager(String fileName, String path)
         {
@@ -30,6 +23,7 @@ namespace sharpLog
             this.path = path;
         }
 
+     
         public void writeInFile(String id, String content)
         {
             mut.WaitOne();    
@@ -56,3 +50,23 @@ namespace sharpLog
 
     }
 }
+
+
+/*
+      public FileManager()
+      {
+          this.fileName = "Default.txt";
+      }
+
+      public FileManager(String fileName)
+      {
+          this.fileName = String.Format("{0}.txt", fileName);
+          this.path = null;
+      }
+
+      public FileManager(String fileName, String path)
+      {
+          this.fileName = String.Format("{0}.txt", fileName);
+          this.path = path;
+      }
+      */

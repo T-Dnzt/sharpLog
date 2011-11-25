@@ -12,66 +12,50 @@ namespace sharpLog
         private String path;
         private ArchiveConfig archiveConfig;
 
+        public ArchiveManager(String fileName) : this(fileName, null, 0) { }
 
-        //Constructeurs
-        public ArchiveManager(String fileName)
-        {
-            this.fileName = fileName;
-            this.path = null;
-            checkArchiveConfig();
-        }
+        public ArchiveManager(String fileName, String path) : this(fileName, path, 0) { }
 
-        public ArchiveManager(String fileName, String path)
-        {
-            this.fileName = fileName;
-            this.path = path;
-            checkArchiveConfig();
-        }
-
-        public ArchiveManager(String fileName, Int32 dayInterval)
-        {
-            this.fileName = fileName;
-            this.path = null;
-            checkArchiveConfig(dayInterval);
-            saveArchiveConfig();
-        }
-
-        public ArchiveManager(String fileName,  String path, Int32 dayInterval)
+        public ArchiveManager(String fileName, Int32 dayInterval) : this(fileName, null, dayInterval) { }
+     
+        public ArchiveManager(String fileName, String path, Int32 dayInterval)
         {
             this.fileName = fileName;
             this.path = path;
             checkArchiveConfig(dayInterval);
             saveArchiveConfig();
-        }
-
-
+        } 
 
         //Méthodes
-        public void checkArchiveConfig()
-        {
-            if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
-            {
-                this.archiveConfig = getArchiveConfig();
-                archiveFile();
-            }
-            else
-                this.archiveConfig = new ArchiveConfig(this.fileName);
-        }
-
+        //A CHECK
         public void checkArchiveConfig(Int32 dayInterval)
         {
-            if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+            if (dayInterval <= 0)
             {
-                this.archiveConfig = getArchiveConfig();
-                archiveFile();
+                if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+                {
+                    this.archiveConfig = getArchiveConfig();
+                    archiveFile();
+                }
+                else
+                    this.archiveConfig = new ArchiveConfig(this.fileName);
             }
             else
             {
-                if (String.IsNullOrEmpty(this.path))
-                    this.archiveConfig = new ArchiveConfig(this.fileName);
+                if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+                {
+                    this.archiveConfig = getArchiveConfig();
+                    archiveFile();
+                }
                 else
-                    this.archiveConfig = new ArchiveConfig(this.fileName, this.path);
-                setArchivage(dayInterval);
+                {
+                    if (String.IsNullOrEmpty(this.path))
+                        this.archiveConfig = new ArchiveConfig(this.fileName);
+                    else
+                        this.archiveConfig = new ArchiveConfig(this.fileName, this.path);
+                    setArchivage(dayInterval);
+                }
+                saveArchiveConfig();
             }
         }
 
@@ -124,3 +108,39 @@ namespace sharpLog
         }
     }
 }
+
+
+
+
+/*
+//Constructeurs
+public ArchiveManager(String fileName)
+{
+    this.fileName = fileName;
+    this.path = null;
+    checkArchiveConfig();
+}
+
+public ArchiveManager(String fileName, String path)
+{
+    this.fileName = fileName;
+    this.path = path;
+    checkArchiveConfig();
+}
+
+public ArchiveManager(String fileName, Int32 dayInterval)
+{
+    this.fileName = fileName;
+    this.path = null;
+    checkArchiveConfig(dayInterval);
+    saveArchiveConfig();
+}
+
+public ArchiveManager(String fileName,  String path, Int32 dayInterval)
+{
+    this.fileName = fileName;
+    this.path = path;
+    checkArchiveConfig(dayInterval);
+    saveArchiveConfig();
+}
+*/

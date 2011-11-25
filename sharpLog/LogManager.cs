@@ -16,42 +16,29 @@ namespace sharpLog
         private String path;
         private ArchiveManager archiveManager;
 
+        public LogManager(String fileName) : this(fileName, null, 0) { }
 
-        //CONSTRUCTEURS
-      
-        public LogManager(String fileName)
-        {         
-            this.fileName = fileName;
-            this.path = null;
-            this.fileManager = new FileManager(this.fileName);
-            this.archiveManager = null;
-            this.path = null;     
-        }
+        public LogManager(String fileName, Int32 dayInterval) : this(fileName, null, dayInterval) { }
 
-        public LogManager(String fileName, Int32 dayInterval)
-        {
-            this.fileName = fileName;
-            this.path = null;
-            this.fileManager = new FileManager(this.fileName);
-            this.archiveManager = new ArchiveManager(this.fileName, dayInterval);
-            
-        }
-        
-        public LogManager(String fileName, String path)
-        {
-            this.fileName = fileName;
-            checkPath(path);
-            this.fileManager = new FileManager(this.fileName, this.path);
-            this.archiveManager = null;
-         
-        }
+        public LogManager(String fileName, String path) : this(fileName, path, 0) { }
 
         public LogManager(String fileName, String path, Int32 dayInterval)
         {
             this.fileName = fileName;
             checkPath(path);
             this.fileManager = new FileManager(this.fileName, this.path);
-            this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
+            defineArchiveManager(dayInterval);
+        }
+
+        private void defineArchiveManager(Int32 dayInterval)
+        {
+            if (dayInterval > 0)
+            {
+                this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
+            }
+            else
+                this.archiveManager = null;
+
         }
 
         private void checkPath(String path)
@@ -74,7 +61,6 @@ namespace sharpLog
                 this.archiveManager.changeDayInterval(dayInterval);
         }
 
-
         //METHODES D ECRITURE
         public void logEvent(String id, String eventContent)
         {
@@ -89,16 +75,12 @@ namespace sharpLog
             otherFile.writeInFile(id, eventContent);
         }
 
-
         public void logException(String id, Exception ex)
         {
             if (!this.archiveManager.Equals(null))
                 this.archiveManager.archiveFile();
             this.fileManager.writeInFile(id, ex);
-        }
-
-
-      
+        }    
 
         //RECHERCHE DANS LES LOGS
         public List<String> getFilesAndArchives(String fileName)
@@ -157,3 +139,45 @@ namespace sharpLog
 
     }
 }
+
+
+
+
+//CONSTRUCTEURS
+/*
+  public LogManager(String fileName)
+  {         
+      this.fileName = fileName;
+      this.path = null;
+      this.fileManager = new FileManager(this.fileName);
+      this.archiveManager = null;
+      this.path = null;     
+  }
+
+  public LogManager(String fileName, Int32 dayInterval)
+  {
+      this.fileName = fileName;
+      this.path = null;
+      this.fileManager = new FileManager(this.fileName);
+      this.archiveManager = new ArchiveManager(this.fileName, dayInterval);
+            
+  }
+        
+  public LogManager(String fileName, String path)
+  {
+      this.fileName = fileName;
+      checkPath(path);
+      this.fileManager = new FileManager(this.fileName, this.path);
+      this.archiveManager = null;
+         
+  }
+
+  public LogManager(String fileName, String path, Int32 dayInterval)
+  {
+      this.fileName = fileName;
+      checkPath(path);
+      this.fileManager = new FileManager(this.fileName, this.path);
+      this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
+  }
+
+  */
