@@ -13,7 +13,7 @@ namespace application_test
         static void Main(string[] args)
         {
             LogManager lm = new LogManager("f", @"C:\Users\Thibault\Documents\Logs\", 3);
-
+          
             
 
             //LogManager lm2 = new LogManager("log");
