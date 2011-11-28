@@ -6,139 +6,98 @@ using System.IO;
 
 namespace sharpLog
 {
+    /// <summary>
+    /// This class manages access to the archive configuration file and update its content if needed
+    /// </summary>
     class ArchiveManager
     {
-        private String fileName;
-        private String path;
-        private ArchiveConfig archiveConfig;
+        /// <summary>Name of the log file</summary>
+        private String FileName;
 
-        public ArchiveManager(String fileName) : this(fileName, null, 0) { }
+        /// <summary>The path to access the log file</summary>
+        private String Path;
 
-        public ArchiveManager(String fileName, String path) : this(fileName, path, 0) { }
+        /// <summary>Instance of the class ArchiveConfig used to save archivage settings</summary>
+        private ArchiveConfig ArchiveConfig;
 
-        public ArchiveManager(String fileName, Int32 dayInterval) : this(fileName, null, dayInterval) { }
-     
+        /// <summary>
+        /// Creates an ArchiveManager object. This class manages access to archivage settings.
+        /// </summary>
+        /// <param name="fileName">Name of the log file</param>
+        /// <param name="path">The path of the directory where the log file is saved</param>
+        /// <param name="dayInterval">Number of days between each archivage</param>
         public ArchiveManager(String fileName, String path, Int32 dayInterval)
         {
-            this.fileName = fileName;
-            this.path = path;
-            checkArchiveConfig(dayInterval);
+            this.FileName = fileName;
+            this.Path = path;
+            setArchiveConfig(dayInterval);
             saveArchiveConfig();
         } 
 
-        //Méthodes
-        //A CHECK
-        public void checkArchiveConfig(Int32 dayInterval)
+        //Public Methods
+        /// <summary>
+        /// Changes the number of days between each archivage
+        /// </summary>
+        /// <param name="dayInterval">Number of days between each archivage</param>
+        public void changeDayInterval(Int32 dayInterval)
         {
-            if (dayInterval <= 0)
+            this.ArchiveConfig.DayInterval = dayInterval;
+            saveArchiveConfig();
+        }
+
+        /// <summary>
+        /// Create an archive of the current log file and update the next archive date
+        /// </summary>
+        public void archiveFile()
+        {
+
+            if (File.Exists(String.Format("{0}{1}.txt", this.Path, this.FileName)) && this.ArchiveConfig.NextArchiveDate <= DateTime.Now)
             {
-                if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
+                try
                 {
-                    this.archiveConfig = getArchiveConfig();
-                    archiveFile();
+                    String archiveName = String.Format("{0}_archive_{1:yyyy_M_dd}.txt", this.FileName, DateTime.Now);
+                    File.Move(String.Format("{0}{1}.txt", this.Path, this.FileName), String.Format("{0}{1}.txt", this.Path, archiveName));
+                    this.ArchiveConfig.updateNextArchiveDate();
                 }
-                else
-                    this.archiveConfig = new ArchiveConfig(this.fileName);
+                catch (Exception ex)
+                { }
+            }
+        }
+
+
+        //Private Methods
+        /// <summary>
+        /// Checks if there is already a configuration file for this log file or not.
+        /// </summary>
+        /// <param name="dayInterval">Number of days between each archivage</param>
+        private void setArchiveConfig(Int32 dayInterval)
+        {
+            if (File.Exists(String.Format("{0}{1}.conf", this.Path, this.FileName)))
+            {
+                this.ArchiveConfig = getArchiveConfig();
+                archiveFile();
             }
             else
             {
-                if (File.Exists(String.Format("{0}{1}.conf", this.path, this.fileName)))
-                {
-                    this.archiveConfig = getArchiveConfig();
-                    archiveFile();
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(this.path))
-                        this.archiveConfig = new ArchiveConfig(this.fileName);
-                    else
-                        this.archiveConfig = new ArchiveConfig(this.fileName, this.path);
-                    setArchivage(dayInterval);
-                }
+                this.ArchiveConfig = new ArchiveConfig(this.FileName, this.Path, dayInterval);
                 saveArchiveConfig();
             }
         }
 
-        public void setArchivage(Int32 dayInterval)
-        {
-            if (String.IsNullOrEmpty(this.path))
-                this.archiveConfig = new ArchiveConfig(this.fileName, dayInterval);
-            else
-                this.archiveConfig = new ArchiveConfig(this.fileName, this.path, dayInterval);
-        }
-
-        public void changeDayInterval(Int32 dayInterval)
-        {
-            this.archiveConfig.dayInterval = dayInterval;
-        }
-
+        /// <summary>
+        /// Saves the archivage configuration
+        /// </summary>
         private void saveArchiveConfig()
         {
-            Serializer serializer = new Serializer();
-            serializer.SerializeArchiveConfig(String.Format("{0}{1}", this.path, this.fileName), this.archiveConfig);
+            Serializer.SerializeArchiveConfig(String.Format("{0}{1}", this.Path, this.FileName), this.ArchiveConfig);
         }
 
+        /// <summary>
+        /// Loads the archivage configuration
+        /// </summary>
         private ArchiveConfig getArchiveConfig()
         {
-            Serializer serializer = new Serializer();
-            return serializer.DeSerializeArchiveConfig(String.Format("{0}{1}", this.path, this.fileName));
-        }
-
-
-        public void archiveFile()
-        {
-            
-            if (File.Exists(String.Format("{0}{1}.txt", this.path, this.fileName)) && this.archiveConfig.nextArchiveDate <= DateTime.Now)
-            {
-                try
-                {
-                    String archiveName = String.Format("{0}_archive_{1:yyyy_M_dd}.txt", this.fileName, DateTime.Now);
-                    File.Move(String.Format("{0}{1}.txt", this.path, this.fileName), String.Format("{0}{1}.txt", this.path, archiveName));
-                    this.archiveConfig.updateNextArchiveDate();
-                    Console.WriteLine("Apres archivage : " + this.archiveConfig.nextArchiveDate);
-                }
-                catch (Exception ex)
-                {
-                    //Si l'archive existe déjà
-                }
-
-            }
-        }
+            return Serializer.DeSerializeArchiveConfig(String.Format("{0}{1}", this.Path, this.FileName));
+        }   
     }
 }
-
-
-
-
-/*
-//Constructeurs
-public ArchiveManager(String fileName)
-{
-    this.fileName = fileName;
-    this.path = null;
-    checkArchiveConfig();
-}
-
-public ArchiveManager(String fileName, String path)
-{
-    this.fileName = fileName;
-    this.path = path;
-    checkArchiveConfig();
-}
-
-public ArchiveManager(String fileName, Int32 dayInterval)
-{
-    this.fileName = fileName;
-    this.path = null;
-    checkArchiveConfig(dayInterval);
-    saveArchiveConfig();
-}
-
-public ArchiveManager(String fileName,  String path, Int32 dayInterval)
-{
-    this.fileName = fileName;
-    this.path = path;
-    checkArchiveConfig(dayInterval);
-    saveArchiveConfig();
-}
-*/

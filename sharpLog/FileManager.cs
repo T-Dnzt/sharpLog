@@ -7,66 +7,51 @@ using System.Threading;
 
 namespace sharpLog
 {
-    class FileManager
+    /// <summary>
+    /// This static class manages access and writing in log files.
+    /// </summary>
+    static class FileManager
     {
-        private String fileName;
-        private String path;
-        static Mutex mut = new Mutex();
+        /// <summary>
+        /// We use a mutex to prevent two logger to access the same file at the same time
+        /// </summary>
+        static Mutex Mut = new Mutex();
 
-        public FileManager() : this("Default", null){}
-
-        public FileManager(String fileName) : this(fileName, null){}
-
-        public FileManager(String fileName, String path)
+        /// <summary>
+        /// Logs the content in the file fileName with the specified id
+        /// </summary>
+        /// <param name="id">The id of the section where the event occured</param>
+        /// <param name="content">What will be logged</param>
+        /// <param name="fileName">Name of the log file</param>
+        static public void writeInFile(String id, String content, String fileName)
         {
-            this.fileName = String.Format("{0}.txt", fileName);
-            this.path = path;
-        }
-
-     
-        public void writeInFile(String id, String content)
-        {
-            mut.WaitOne();    
-            using (StreamWriter w = File.AppendText(String.Format("{0}{1}", this.path, this.fileName)))
+            Mut.WaitOne();    
+            using (StreamWriter w = File.AppendText(fileName))
             {
                 w.WriteLine(String.Format("{0} - {1} : {2}", DateTime.Now, id, content));
                 w.Flush();
                 w.Close();
             }
-            mut.ReleaseMutex();
+            Mut.ReleaseMutex();
         }
 
-        public void writeInFile(String id, Exception ex)
+        /// <summary>
+        /// Logs the exception in the file fileName with the specified id
+        /// </summary>
+        /// <param name="id">The id of the section where the event occured</param>
+        /// <param name="ex">Exception to log</param>
+        /// <param name="fileName">Name of the log file</param>
+        static public void writeInFile(String id, Exception ex, String fileName)
         {
-            mut.WaitOne();
-            using (StreamWriter w = File.AppendText(this.fileName))
+            Mut.WaitOne();
+            using (StreamWriter w = File.AppendText(fileName))
             {
-                w.WriteLine(String.Format("{0} - Exception in {1} : {2}", DateTime.Now, id, ex.ToString()));
+                w.WriteLine(String.Format("{0} - {1} : Exception - {2}", DateTime.Now, id, ex.ToString()));
                 w.Flush();
                 w.Close();
             }
-            mut.ReleaseMutex();
+            Mut.ReleaseMutex();
         }
 
     }
 }
-
-
-/*
-      public FileManager()
-      {
-          this.fileName = "Default.txt";
-      }
-
-      public FileManager(String fileName)
-      {
-          this.fileName = String.Format("{0}.txt", fileName);
-          this.path = null;
-      }
-
-      public FileManager(String fileName, String path)
-      {
-          this.fileName = String.Format("{0}.txt", fileName);
-          this.path = path;
-      }
-      */

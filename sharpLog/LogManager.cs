@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -16,25 +15,17 @@ namespace sharpLog
     public class LogManager
     {
         /// <summary>
-        /// The fileManager manages the writting part of the log.
+        /// The name of the file associated to this instance of LogManager
         /// </summary>
-        private FileManager fileManager;
-
+        private String FileName;
         /// <summary>
-        /// The fileName is the name of the log file.
+        /// The path to access the log file
         /// </summary>
-        private String fileName;
-
+        private String Path;
         /// <summary>
-        /// The path of the directory where the log file is saved.
+        /// An instance of the ArchiveManager to manages archivage settings.
         /// </summary>
-        private String path;
-
-        /// <summary>
-        /// The archiveManager manages settings and access to the archive files.
-        /// </summary>
-        private ArchiveManager archiveManager;
-
+        private ArchiveManager ArchiveManager;
 
         //Constructors
         /// <summary>
@@ -53,7 +44,7 @@ namespace sharpLog
         public LogManager(String fileName, Int32 dayInterval) : this(fileName, null, dayInterval) { }
 
         /// <summary>
-        /// Constructor with fileName and dayInterval. The file is created in the specified directory.
+        /// Constructor with fileName and path. The file is created in the specified directory.
         /// No archivage is set.
         /// </summary>
         /// <param name="fileName">Name of the log file</param>
@@ -61,7 +52,7 @@ namespace sharpLog
         public LogManager(String fileName, String path) : this(fileName, path, 0) { }
 
         /// <summary>
-        /// Constructor with fileName and dayInterval. The file is created in the specified directory, if the directory
+        /// Constructor with fileName, path and dayInterval. The file is created in the specified directory, if the directory
         /// does not exist, the file is created in the same directory than the program.
         /// An archivage is set with the specified number of days.
         /// </summary>
@@ -70,9 +61,9 @@ namespace sharpLog
         /// <param name="dayInterval">Number of days between each archivage</param>
         public LogManager(String fileName, String path, Int32 dayInterval)
         {
-            this.fileName = fileName;
+            this.FileName = fileName;
             setPath(path);
-            this.fileManager = new FileManager(this.fileName, this.path);
+           // this.fileManager = new FileManager(this.fileName, this.path);
             setArchiveManager(dayInterval);
         }
 
@@ -87,9 +78,9 @@ namespace sharpLog
         private void setArchiveManager(Int32 dayInterval)
         {
             if (dayInterval > 0)
-                this.archiveManager = new ArchiveManager(this.fileName, this.path, dayInterval);
+                this.ArchiveManager = new ArchiveManager(this.FileName, this.Path, dayInterval);
             else
-                this.archiveManager = null;
+                this.ArchiveManager = null;
 
         }
 
@@ -100,9 +91,9 @@ namespace sharpLog
         private void setPath(String path)
         {
             if (Directory.Exists(path))
-                this.path = path;
+                this.Path = path;
             else
-                this.path = null;
+                this.Path = null;
         }
 
         /// <summary>
@@ -111,8 +102,8 @@ namespace sharpLog
         /// <param name="dayInterval">Number of days between each archivage</param>
         public void setArchivage(Int32 dayInterval)
         {
-            if(!this.archiveManager.Equals(null))
-                this.archiveManager.setArchivage(dayInterval);
+            if(this.ArchiveManager == null)
+                this.ArchiveManager = new ArchiveManager(this.FileName, this.Path, dayInterval);
         }
 
         /// <summary>
@@ -121,8 +112,8 @@ namespace sharpLog
         /// <param name="dayInterval">Number of days between each archivage</param>
         public void changeDayInterval(Int32 dayInterval)
         {
-            if (!this.archiveManager.Equals(null))
-                this.archiveManager.changeDayInterval(dayInterval);
+            if (!this.ArchiveManager.Equals(null))
+                this.ArchiveManager.changeDayInterval(dayInterval);
         }
 
 
@@ -132,40 +123,38 @@ namespace sharpLog
         /// <summary>
         /// Logs an event.
         /// </summary>
-        /// <param name="id">The id of the element where the event occured</param>
+        /// <param name="id">The id of the section where the event occured</param>
         /// <param name="eventContent">Text of the event</param>
         public void logEvent(String id, String eventContent)
         {
-            if (!this.archiveManager.Equals(null))
-                this.archiveManager.archiveFile();
-            this.fileManager.writeInFile(id, eventContent);
-        }
-
-        /// <summary>
-        /// Logs an event in a different file.
-        /// </summary>
-        /// <param name="id">The id of the element where the event occured</param>
-        /// <param name="eventContent">Text of the event</param>
-        /// /// <param name="fileName">The name of the file. Have to contains the path if needed</param>
-        public void logEvent(String id, String eventContent, String fileName)
-        {
-            FileManager otherFile = new FileManager(fileName);
-            otherFile.writeInFile(id, eventContent);
+            if (!this.ArchiveManager.Equals(null))
+                this.ArchiveManager.archiveFile();
+            FileManager.writeInFile(id, eventContent, String.Format("{0}{1}.txt", this.Path, this.FileName));
         }
 
         /// <summary>
         /// Logs an exception.
         /// </summary>
-        /// <param name="id">The id of the element where the event occured</param>
+        /// <param name="id">The id of the section where the event occured</param>
         /// <param name="ex">The exception</param>
         public void logException(String id, Exception ex)
         {
-            if (!this.archiveManager.Equals(null))
-                this.archiveManager.archiveFile();
-            this.fileManager.writeInFile(id, ex);
-        }    
+            if (!this.ArchiveManager.Equals(null))
+                this.ArchiveManager.archiveFile();
+            FileManager.writeInFile(id, ex, String.Format("{0}{1}.txt", this.Path, this.FileName));
+        }
 
-        
+        /// <summary>
+        /// Logs an event in a different file.
+        /// </summary>
+        /// <param name="id">The id of the section where the event occured</param>
+        /// <param name="eventContent">Text of the event</param>
+        /// /// <param name="fileName">The name of the file. Have to contains the path if needed</param>
+        public void logEvent(String id, String eventContent, String fileName)
+        {
+            FileManager.writeInFile(id, eventContent, String.Format("{0}{1}.txt", fileName));
+        }
+
 
 
         //Search methods
@@ -180,9 +169,9 @@ namespace sharpLog
             Regex fileReg = new Regex(String.Format(@"{0}\w*\.txt$", fileName));
 
             //We look for all the files in the path or in the program directory
-            if (!String.IsNullOrEmpty(this.path))
+            if (!String.IsNullOrEmpty(this.Path))
             {  
-                foreach (string sFileName in System.IO.Directory.GetFiles(this.path))
+                foreach (string sFileName in System.IO.Directory.GetFiles(this.Path))
                 {
                     //If we have a match, we add the file name in our list
                     if (fileReg.IsMatch(sFileName))
@@ -214,7 +203,7 @@ namespace sharpLog
         public List<String> getLogs(DateTime start, DateTime end, String id = null)
         {
             List<String> logList = new List<String>();
-            List<String> fileList = getFilesAndArchives(this.fileName);
+            List<String> fileList = getFilesAndArchives(this.FileName);
             DateTime logDate = new DateTime();
 
             //Regex to match the dates and the id
@@ -226,31 +215,38 @@ namespace sharpLog
                 using(StreamReader streamR = new StreamReader(fName))
                 {
                     string line = streamR.ReadLine();
-
-                    
+ 
                     while (line != null)
                     {
                         //We add the ligne if it matches the regex
-                        logDate = DateTime.Parse(regDate.Match(line).ToString());
-                
-                        if (logDate >= start && logDate <= end && id.Equals(null))
-                            logList.Add(line);
-                        else if (logDate >= start && logDate <= end && !id.Equals(null))
+                        try
                         {
-                            if (regLine.IsMatch(line))
-                                logList.Add(line);
-                        }
+                            logDate = DateTime.Parse(regDate.Match(line).ToString());
 
-                        line = streamR.ReadLine();
+                            if (logDate >= start && logDate <= end && id == null)
+                                logList.Add(line);
+                            else if (logDate >= start && logDate <= end && !(id == null))
+                            {
+                                if (regLine.IsMatch(line))
+                                    logList.Add(line);
+                            }
+                        }
+                        catch (Exception ex)
+                        {                        
+                        }
+                        finally
+                        {
+                            line = streamR.ReadLine();
+                        }
                     }
                     streamR.Close();
                 }
 
             }
 
-            //Display to check errors
-            foreach (String s in logList)
-                Console.WriteLine(s);
+            //Display to check the return
+          /*  foreach (String s in logList)
+                Console.WriteLine(s);*/
             return logList;
         }
 

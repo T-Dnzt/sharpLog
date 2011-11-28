@@ -8,87 +8,62 @@ namespace sharpLog
 {
     [Serializable]
 
+    /// <summary>
+    /// This class contains the archivage settings. We will serialize it to save archivage settings.
+    /// </summary>
     class ArchiveConfig
     {
-        String fileName;
-        String path;
-        Int32 dInterval;
-        DateTime nArchiveDate;
+        /// <summary> Name of the log file </summary>
+        private String FileName;
 
-        public ArchiveConfig(String fileName) : this(fileName, null, 0) { }
+        /// <summary>Name of the log file </summary>
+        private String Path;
 
-        public ArchiveConfig(String fileName, String path) : this(fileName, path, 0) { }
+        /// <summary>Number of days between each archivage </summary>
+        public Int32 DayInterval
+        { get; set; }
 
-        public ArchiveConfig(String fileName, Int32 dayInterval) : this(fileName, null, dayInterval) { }
+        /// <summary>Date of the next archivage </summary>
+        public DateTime NextArchiveDate
+        { get; set; }
 
+        /// <summary>
+        /// Creates an ArchiveConfig object which represents archivage settings. 
+        /// The file will be saved in the path directory if not null. If the directory
+        /// does not exist, the file is created in the same directory than the program.
+        /// An archivage is set with the specified number of days.
+        /// </summary>
+        /// <param name="fileName">Name of the configuration file</param>
+        /// <param name="path">The path of the directory where the configuration file will be saved</param>
+        /// <param name="dayInterval">Number of days between each archivage</param>
         public ArchiveConfig(String fileName, String path, Int32 dayInterval)
         {
-            this.fileName = fileName;
-            this.path = path;
-            this.dInterval = dayInterval;
-            defineNextArchiveDate(dayInterval);
+            this.FileName = fileName;
+            this.Path = path;
+            this.DayInterval = dayInterval;
+            setNextArchiveDate(this.DayInterval);
         }
 
-        private void defineNextArchiveDate(Int32 dayInterval)
+        /// <summary>
+        /// Determines the next archive date if needed
+        /// </summary>
+        /// <param name="dayInterval">Number of days between each archivage</param>
+        private void setNextArchiveDate(Int32 dayInterval)
         {
             if(dayInterval > 0)
-               this.nArchiveDate = DateTime.Now.AddDays(dayInterval);
+               this.NextArchiveDate = DateTime.Now.AddDays(dayInterval);
             else
-               this.nArchiveDate = new DateTime();
+                this.NextArchiveDate = new DateTime();
         }
 
+        /// <summary>
+        /// Adds the DayInterval value to the NextArchiveDate
+        /// </summary>
         public void updateNextArchiveDate()
         {
-            this.nArchiveDate = this.nArchiveDate.AddDays(this.dInterval);
-        }
-
-        public Int32 dayInterval
-        {
-            get { return this.dInterval; }
-            set { this.dInterval = value; }
-        }
-
-        public DateTime nextArchiveDate
-        {
-            get { return this.nArchiveDate; }
+            this.NextArchiveDate = this.NextArchiveDate.AddDays(this.DayInterval);
         }
     }
 }
 
 
-
-
-/*
-public ArchiveConfig(String fileName)
-{
-    this.fileName = fileName;
-    this.path = null;
-    this.dInterval = 0;
-    this.nArchiveDate = new DateTime();
-}
-
-public ArchiveConfig(String fileName, String path)
-{
-    this.fileName = fileName;
-    this.path = path;
-    this.dInterval = 0;
-    this.nArchiveDate = new DateTime();
-}
-
-public ArchiveConfig(String fileName, Int32 dayInterval)
-{
-    this.fileName = fileName;
-    this.path = null;
-    this.dInterval = dayInterval;
-    this.nArchiveDate = DateTime.Now.AddDays(dayInterval);
-}
-
-public ArchiveConfig(String fileName, String path, Int32 dayInterval)
-{
-    this.fileName = fileName;
-    this.path = path;
-    this.dInterval = dayInterval;
-    this.nArchiveDate = DateTime.Now.AddDays(dayInterval);
-}
-
-*/
