@@ -87,10 +87,8 @@ namespace sharpLog
 
         public void archiveFile()
         {
-            Console.WriteLine("Prochaine date : " + this.archiveConfig.nextArchiveDate);
-            Console.WriteLine("Date actuelle : " + DateTime.Now);
-            Console.WriteLine(this.archiveConfig.nextArchiveDate >= DateTime.Now);
-            if (File.Exists(String.Format("{0}{1}.txt", this.path, this.fileName)) && this.archiveConfig.nextArchiveDate <= DateTime.Now.AddDays(8))
+            
+            if (File.Exists(String.Format("{0}{1}.txt", this.path, this.fileName)) && this.archiveConfig.nextArchiveDate <= DateTime.Now)
             {
                 try
                 {

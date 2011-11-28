@@ -3,3 +3,4 @@ C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\bin\Debug\sharpLog.pdb
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\sharpLog.dll
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\sharpLog.pdb
+C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\bin\Debug\sharpLog.XML

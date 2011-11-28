@@ -12,23 +12,26 @@ namespace application_test
     {
         static void Main(string[] args)
         {
-            LogManager lm = new LogManager("Testdefifou", @"C:\C:\Users\Thibault\Documents\Logs\", 3);
+            LogManager lm = new LogManager("f", @"C:\Users\Thibault\Documents\Logs\", 3);
+
             
 
             //LogManager lm2 = new LogManager("log");
             // LogManager f = new LogManager("fu");
-            lm.logEvent("Programme principal", "Erreur 7");
+            /*lm.logEvent("Programme principal", "Erreur 7");
             lm.logEvent("Programme secondaire", "Erreur 0");
-
+            lm.logEvent("Programme principal", "Nlkd,qds");
+            lm.logEvent("Programme principal", "kdjzalmk");
+            lm.logEvent("Programme principal", "Rhaaaa");*/
 
             //Test de la recherche
-            /*
-            DateTime now = new DateTime(2011,11,11,16,51,5);
-            DateTime end = now.AddMinutes(3);
+            
+            DateTime now = new DateTime(2011,11,27,16,36,45);
+            DateTime end = now.AddMinutes(10);
             lm.getLogs(now, end);
-            Console.WriteLine();
-            lm.getLogs(now, end, "Programme secondaire");
-            */
+            
+            //lm.getLogs(now, end, "Programme secondaire");
+            
 
             // lm.logEvent("Programme secondaire", "Erreur 7", "Test2");
           //ThreadTest tt = new ThreadTest(lm);
