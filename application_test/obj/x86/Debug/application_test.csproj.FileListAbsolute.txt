@@ -6,3 +6,5 @@ C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\Resol
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\application_test.exe
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\obj\x86\Debug\application_test.pdb
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\application_test\bin\Debug\sharpLog.xml
+C:\Users\simon\Desktop\fug\application_test\obj\x86\Debug\application_test.exe
+C:\Users\simon\Desktop\fug\application_test\obj\x86\Debug\application_test.pdb

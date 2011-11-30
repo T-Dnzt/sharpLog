@@ -8,7 +8,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "application_test", "applica
 		{34FD8B78-D131-441D-9D9D-22CA77B1E392} = {34FD8B78-D131-441D-9D9D-22CA77B1E392}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCC8F7E4-0E11-4DD5-B79A-662420C774B5}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		sharpLog.vsmdi = sharpLog.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = sharpLog.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -38,6 +50,16 @@ Global
 		{05E15E01-E45D-4AF5-AB66-9AF65CFCE5BD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{05E15E01-E45D-4AF5-AB66-9AF65CFCE5BD}.Release|x86.ActiveCfg = Release|x86
 		{05E15E01-E45D-4AF5-AB66-9AF65CFCE5BD}.Release|x86.Build.0 = Release|x86
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{98E1945A-7DCC-4E0F-A29E-3415CBD834BD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

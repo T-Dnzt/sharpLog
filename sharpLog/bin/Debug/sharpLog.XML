@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>sharpLog</name>
+    </assembly>
+    <members>
+        <member name="T:sharpLog.Serializer">
+            <summary>
+            This static class is used to save or load the ArchiveConfig object.
+            </summary>
+        </member>
+        <member name="M:sharpLog.Serializer.SerializeArchiveConfig(System.String,sharpLog.ArchiveConfig)">
+            <summary>
+            Save the ArchiveConfig specified
+            </summary>
+            <param name="fileName">Name of the log file</param>
+            <param name="archiveConf">Object to serialize</param>
+        </member>
+        <member name="M:sharpLog.Serializer.DeSerializeArchiveConfig(System.String)">
+            <summary>
+            Load the ArchiveConfig object
+            </summary>
+            <param name="fileName">Name of the log file</param>
+        </member>
+        <member name="T:sharpLog.FileManager">
+            <summary>
+            This static class manages access and writing in log files.
+            </summary>
+        </member>
+        <member name="F:sharpLog.FileManager.Mut">
+            <summary>
+            We use a mutex to prevent two logger to access the same file at the same time
+            </summary>
+        </member>
+        <member name="M:sharpLog.FileManager.writeInFile(System.String,System.String,System.String)">
+            <summary>
+            Logs the content in the file fileName with the specified id
+            </summary>
+            <param name="id">The id of the section where the event occured</param>
+            <param name="content">What will be logged</param>
+            <param name="fileName">Name of the log file</param>
+        </member>
+        <member name="M:sharpLog.FileManager.writeInFile(System.String,System.Exception,System.String)">
+            <summary>
+            Logs the exception in the file fileName with the specified id
+            </summary>
+            <param name="id">The id of the section where the event occured</param>
+            <param name="ex">Exception to log</param>
+            <param name="fileName">Name of the log file</param>
+        </member>
+        <member name="T:sharpLog.ArchiveManager">
+            <summary>
+            This class manages access to the archive configuration file and update its content if needed
+            </summary>
+        </member>
+        <member name="F:sharpLog.ArchiveManager.FileName">
+            <summary>Name of the log file</summary>
+        </member>
+        <member name="F:sharpLog.ArchiveManager.Path">
+            <summary>The path to access the log file</summary>
+        </member>
+        <member name="F:sharpLog.ArchiveManager.ArchiveConfig">
+            <summary>Instance of the class ArchiveConfig used to save archivage settings</summary>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.#ctor(System.String,System.String,System.Int32)">
+            <summary>
+            Creates an ArchiveManager object. This class manages access to archivage settings.
+            </summary>
+            <param name="fileName">Name of the log file</param>
+            <param name="path">The path of the directory where the log file is saved</param>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.changeDayInterval(System.Int32)">
+            <summary>
+            Changes the number of days between each archivage
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.archiveFile">
+            <summary>
+            Create an archive of the current log file and update the next archive date
+            </summary>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.setArchiveConfig(System.Int32)">
+            <summary>
+            Checks if there is already a configuration file for this log file or not.
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.saveArchiveConfig">
+            <summary>
+            Saves the archivage configuration
+            </summary>
+        </member>
+        <member name="M:sharpLog.ArchiveManager.getArchiveConfig">
+            <summary>
+            Loads the archivage configuration
+            </summary>
+        </member>
+        <member name="F:sharpLog.ArchiveConfig.FileName">
+            <summary> Name of the log file </summary>
+        </member>
+        <member name="F:sharpLog.ArchiveConfig.Path">
+            <summary>Name of the log file </summary>
+        </member>
+        <member name="M:sharpLog.ArchiveConfig.#ctor(System.String,System.String,System.Int32)">
+            <summary>
+            Creates an ArchiveConfig object which represents archivage settings. 
+            The file will be saved in the path directory if not null. If the directory
+            does not exist, the file is created in the same directory than the program.
+            An archivage is set with the specified number of days.
+            </summary>
+            <param name="fileName">Name of the configuration file</param>
+            <param name="path">The path of the directory where the configuration file will be saved</param>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.ArchiveConfig.setNextArchiveDate(System.Int32)">
+            <summary>
+            Determines the next archive date if needed
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.ArchiveConfig.updateNextArchiveDate">
+            <summary>
+            Adds the DayInterval value to the NextArchiveDate
+            </summary>
+        </member>
+        <member name="P:sharpLog.ArchiveConfig.DayInterval">
+            <summary>Number of days between each archivage </summary>
+        </member>
+        <member name="P:sharpLog.ArchiveConfig.NextArchiveDate">
+            <summary>Date of the next archivage </summary>
+        </member>
+        <member name="T:sharpLog.LogManager">
+            <summary>
+             The LogManager class is used to access the log library. Thanks to this class, you can manage your logs, 
+             the number of days between archivage, and search for data inside your log files.
+            </summary>
+        </member>
+        <member name="F:sharpLog.LogManager.FileName">
+            <summary>
+            The name of the file associated to this instance of LogManager
+            </summary>
+        </member>
+        <member name="F:sharpLog.LogManager.Path">
+            <summary>
+            The path to access the log file
+            </summary>
+        </member>
+        <member name="F:sharpLog.LogManager.ArchiveManager">
+            <summary>
+            An instance of the ArchiveManager to manages archivage settings.
+            </summary>
+        </member>
+        <member name="M:sharpLog.LogManager.#ctor(System.String)">
+            <summary>
+            Constructor with fileName. The file is created in the same directory
+            than the program. No archivage is set since the day between archivage is not set.
+            </summary>
+            <param name="fileName">Name of the log file</param>
+        </member>
+        <member name="M:sharpLog.LogManager.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor with fileName and dayInterval. The file is created in the same directory
+            than the program. An archivage is set with the specified number of days.
+            </summary>
+            <param name="fileName">Name of the log file</param>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.LogManager.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with fileName and path. The file is created in the specified directory.
+            No archivage is set.
+            </summary>
+            <param name="fileName">Name of the log file</param>
+            <param name="path">The path of the directory where the log file will be saved</param>
+        </member>
+        <member name="M:sharpLog.LogManager.#ctor(System.String,System.String,System.Int32)">
+            <summary>
+            Constructor with fileName, path and dayInterval. The file is created in the specified directory, if the directory
+            does not exist, the file is created in the same directory than the program.
+            An archivage is set with the specified number of days.
+            </summary>
+            <param name="fileName">Name of the log file</param>
+            <param name="path">The path of the directory where the log file will be saved</param>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.LogManager.setArchiveManager(System.Int32)">
+            <summary>
+            Creates a new ArchiveManager or not, based on the dayInterval parameter.
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.LogManager.setPath(System.String)">
+            <summary>
+            Checks if the path exists, if not, the path is set to null and the file will be created in the same directory than the program.
+            </summary>
+            <param name="path">The path of the directory where the log file will be saved</param>
+        </member>
+        <member name="M:sharpLog.LogManager.setArchivage(System.Int32)">
+            <summary>
+            Allows to define the archivage in the current LogManager. 
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.LogManager.changeDayInterval(System.Int32)">
+            <summary>
+            Allows to change the number of days between each archivage.
+            </summary>
+            <param name="dayInterval">Number of days between each archivage</param>
+        </member>
+        <member name="M:sharpLog.LogManager.logEvent(System.String,System.String)">
+            <summary>
+            Logs an event.
+            </summary>
+            <param name="id">The id of the section where the event occured</param>
+            <param name="eventContent">Text of the event</param>
+        </member>
+        <member name="M:sharpLog.LogManager.logException(System.String,System.Exception)">
+            <summary>
+            Logs an exception.
+            </summary>
+            <param name="id">The id of the section where the event occured</param>
+            <param name="ex">The exception</param>
+        </member>
+        <member name="M:sharpLog.LogManager.logEvent(System.String,System.String,System.String)">
+            <summary>
+            Logs an event in a different file.
+            </summary>
+            <param name="id">The id of the section where the event occured</param>
+            <param name="eventContent">Text of the event</param>
+            /// <param name="fileName">The name of the file. Have to contains the path if needed</param>
+        </member>
+        <member name="M:sharpLog.LogManager.getFilesAndArchives(System.String)">
+            <summary>
+            Gets all files, including archive, which match the param fileName.
+            </summary>
+            <param name="fileName">Name of the files to look for</param>
+        </member>
+        <member name="M:sharpLog.LogManager.getLogs(System.DateTime,System.DateTime,System.String)">
+            <summary>
+            Gets all logs between the dates parameters.
+            </summary>
+            <param name="start">Start date</param>
+            <param name="end">End date</param>
+            <param name="id">ID to look for between the two dates</param>
+        </member>
+    </members>
+</doc>

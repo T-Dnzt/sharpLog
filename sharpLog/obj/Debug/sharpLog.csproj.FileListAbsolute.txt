@@ -4,3 +4,9 @@ C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\ResolveAssemblyRe
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\sharpLog.dll
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\obj\Debug\sharpLog.pdb
 C:\Users\Thibault\Work\Ingésup\M1\sharpLog\sharpLog\bin\Debug\sharpLog.XML
+C:\Users\simon\Desktop\fug\sharpLog\bin\Debug\sharpLog.XML
+C:\Users\simon\Desktop\fug\sharpLog\bin\Debug\sharpLog.dll
+C:\Users\simon\Desktop\fug\sharpLog\bin\Debug\sharpLog.pdb
+C:\Users\simon\Desktop\fug\sharpLog\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\simon\Desktop\fug\sharpLog\obj\Debug\sharpLog.dll
+C:\Users\simon\Desktop\fug\sharpLog\obj\Debug\sharpLog.pdb
