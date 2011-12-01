@@ -58,7 +58,7 @@ namespace sharpLog
         /// </summary>
         /// <param name="fileName">Name of the log file</param>
         /// <param name="path">The path of the directory where the log file will be saved</param>
-        /// <param name="dayInterval">Number of days between each archivage</param>
+        /// <param name="dayInterval">Number of days etween each archivage</param>
         public LogManager(String fileName, String path, Int32 dayInterval)
         {
             this.FileName = fileName;
@@ -162,7 +162,7 @@ namespace sharpLog
         /// Gets all files, including archive, which match the param fileName.
         /// </summary>
         /// <param name="fileName">Name of the files to look for</param>
-        public List<String> getFilesAndArchives(String fileName)
+        private List<String> getFilesAndArchives(String fileName)
         {
             List<String> fileList = new List<String>();
             //Regex to get log files AND archive files (which also contain a date)
